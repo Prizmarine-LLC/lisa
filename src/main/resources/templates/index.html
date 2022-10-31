@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<head>
+    <title>LISA | Бухгалтерские услуги</title>
+    <link rel="stylesheet" th:href="@{/styles.css/}"/>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<div>
+    <form method="POST" th:action="@{/}" th:object="${userRequest}">
+        <div class="grid">
+            <input type="text" name="name" placeholder="Имя" th:field="*{name}"/>*
+            <span class="validationError"
+                  th:if="${#fields.hasErrors('name')}"
+                  th:errors="*{name}">name error</span>
+            <br>
+            <input type="text" name="problem" placeholder="Опишите вашу проблему" th:field="*{problem}"/>
+            <span class="validationError"
+                  th:if="${#fields.hasErrors('problem')}"
+                  th:errors="*{problem}">problem error</span>
+            <br>
+            <input type="text" name="email" placeholder="user@mail.ru" th:field="*{email}"/>*
+            <span class="validationError"
+                  th:if="${#fields.hasErrors('email')}"
+                  th:errors="*{email}">email error</span>
+            <br>
+            <input type="text" name="phoneNumber" placeholder="8 (999) 999 99 99" th:field="*{phoneNumber}"/>
+            <span class="validationError"
+                  th:if="${#fields.hasErrors('phoneNumber')}"
+                  th:errors="*{phoneNumber}">phone number error</span>
+
+            <br>
+            <div th:each="prod : ${organizationTypes}">
+                <input th:field="*{organizationType}" type="radio"
+                th:value="${prod}">
+                <span th:text="${prod}">type</span><br/>
+            </div>
+            <br>
+            <button type="submit">Отправить</button>
+        </div>
+        <br>
+        <p th:text="${message}"/>
+    </form>
+
+
+</div>
+</body>
+</html>
