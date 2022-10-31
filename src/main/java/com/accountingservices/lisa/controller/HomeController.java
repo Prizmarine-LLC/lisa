@@ -3,7 +3,6 @@ package com.accountingservices.lisa.controller;
 import com.accountingservices.lisa.bot.Bot;
 import com.accountingservices.lisa.excel.ExcelService;
 import com.accountingservices.lisa.models.UserRequest;
-import com.accountingservices.lisa.repository.UserRequestRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,8 +21,6 @@ import java.util.List;
 @Controller
 public class HomeController {
 
-    @Autowired
-    private UserRequestRepository userRequestRepository;
 
     private ExcelService excelService;
     private Bot bot;

@@ -5,42 +5,37 @@ import lombok.Getter;
 import lombok.Setter;
 
 
+
 import javax.validation.constraints.NotNull;
 
 
-import javax.persistence.*;
+
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
-@Entity
 @Getter
 @Setter
-@Table(name = "user_requests")
 public class UserRequest {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
 
-    @Column(name = "name")
+
     @NotNull
-    @Size(min = 3, max = 255, message = "Имя должно быть обязательно заполнено тремя и более символами")
+    @Size(min = 3, max = 50, message = "Имя должно быть обязательно заполнено тремя и более символами")
     private String name;
 
-    @Column(name = "problem")
-    @Size(max = 255, message = "Описание не больше 255 символов")
+
+    @Size(max = 511, message = "Описание не больше 511 символов")
     private String problem;
 
-    @Column(name = "email")
+
     @NotNull
-    @Size(max = 255)
+    @Size(max = 50)
     @Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-]" +
             "[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$", message = "Почта должна быть обязательно и корректно заполнена")
     private String email;
 
 
-    @Column(name = "phone_number", nullable = true)
+
     @Pattern(regexp = "(^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$)|(^\\s*$)", message = "Неправильный формат номера телефона")
     private String phoneNumber;
 //|(^\s*$)
