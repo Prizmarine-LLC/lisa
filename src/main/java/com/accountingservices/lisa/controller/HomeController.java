@@ -1,8 +1,10 @@
 package com.accountingservices.lisa.controller;
 
 import com.accountingservices.lisa.bot.Bot;
+import com.accountingservices.lisa.excel.ExcelService;
 import com.accountingservices.lisa.models.UserRequest;
 import com.accountingservices.lisa.repository.UserRequestRepository;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,9 +25,8 @@ public class HomeController {
     @Autowired
     private UserRequestRepository userRequestRepository;
 
-
-//    @Autowired
-//    private Bot bot;
+    private ExcelService excelService;
+    private Bot bot;
 
     @ModelAttribute("organizationTypes")
     public List<String> organizationTypes(Model model) {
@@ -47,6 +48,7 @@ public class HomeController {
         return "index";
     }
 
+    @SneakyThrows
     @PostMapping("/")
     public String add(
             @Valid
@@ -59,26 +61,23 @@ public class HomeController {
             model.addAttribute("message", "Ошибка в отправке заявки!");
             return "index";
         }
-        model.addAttribute("message", "Заявка успешшно отправлена!");
-
-        userRequestRepository.save(userRequest);
+        model.addAttribute("message", "Заявка успешно отправлена!");
 
 
-        TelegramBotsApi botsApi = null;
-        try {
-            botsApi = new TelegramBotsApi(DefaultBotSession.class);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-        Bot bot = new Bot();                  //We moved this line out of the register method, to access it later
-        try {
-            botsApi.registerBot(bot);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+        dataProcessing(userRequest);
 
-        bot.sendText(userRequest.toString());
+
         return "index";
+    }
+
+    private void dataProcessing(UserRequest userRequest) throws TelegramApiException {
+        TelegramBotsApi botsApi = null;
+        botsApi = new TelegramBotsApi(DefaultBotSession.class);
+        bot = new Bot();
+        botsApi.registerBot(bot);
+        bot.sendText(userRequest.toString());
+        excelService = new ExcelService();
+        excelService.addUserRequestExcel(userRequest);
     }
 
 
