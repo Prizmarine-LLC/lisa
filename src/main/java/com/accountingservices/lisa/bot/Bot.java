@@ -1,10 +1,16 @@
 package com.accountingservices.lisa.bot;
 
 
+import lombok.SneakyThrows;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 
 public class Bot extends TelegramLongPollingBot {
@@ -23,9 +29,42 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        System.out.println(update);
+
+        var msg = update.getMessage();
+        if (msg.isCommand()) {
+            if (update.hasMessage() && "/file@x".equals(update.getMessage().getText()) || "/file".equals(update.getMessage().getText())) {
+                sendExcelFile();
+            }
+            return;
+        }
+//        if (update.hasMessage() && msg.isCommand()) {
+//            if (msg.getText().equals("/getfile")) {
+//                sendExcelFile();
+//            }
+//            return;
+//        }
     }
-    public void sendText(String text){
+
+
+    public void sendExcelFile() {
+        FileInputStream stream = null;
+        try {
+            stream = new FileInputStream("requests.xlsx");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        SendDocument document = new SendDocument();
+        document.setChatId(chatId.toString());
+        document.setDocument(new InputFile(stream, "Заявки.xlsx"));
+        try {
+            execute(document);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public void sendText(String text) {
         SendMessage sm = SendMessage.builder()
                 .chatId(chatId.toString()) //Who are we sending a message to
                 .text(text).build();    //Message content

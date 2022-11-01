@@ -20,10 +20,18 @@ import java.util.List;
 
 @Controller
 public class HomeController {
-
-
     private ExcelService excelService;
     private Bot bot;
+
+    @SneakyThrows
+    @Autowired
+    public HomeController() {
+        TelegramBotsApi botsApi = null;
+        botsApi = new TelegramBotsApi(DefaultBotSession.class);
+        bot = new Bot();
+        botsApi.registerBot(bot);
+        excelService = new ExcelService();
+    }
 
     @ModelAttribute("organizationTypes")
     public List<String> organizationTypes(Model model) {
@@ -64,17 +72,12 @@ public class HomeController {
         dataProcessing(userRequest);
 
 
-        return "index";
+        return "redirect:";
     }
 
-    private void dataProcessing(UserRequest userRequest) throws TelegramApiException {
-        TelegramBotsApi botsApi = null;
-        botsApi = new TelegramBotsApi(DefaultBotSession.class);
-        bot = new Bot();
-        botsApi.registerBot(bot);
-        bot.sendText(userRequest.toString());
-        excelService = new ExcelService();
+    private void dataProcessing(UserRequest userRequest){
         excelService.addUserRequestExcel(userRequest);
+        bot.sendText(userRequest.toString());
     }
 
 
