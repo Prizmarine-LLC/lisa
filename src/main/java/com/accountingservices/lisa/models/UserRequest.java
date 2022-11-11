@@ -20,7 +20,7 @@ public class UserRequest {
 
 
     @NotNull
-    @Size(min = 3, max = 50, message = "Имя должно быть обязательно заполнено тремя и более символами")
+    @Size(min = 3, max = 50, message = "Обязательное поле")
     private String name;
 
 
@@ -31,12 +31,12 @@ public class UserRequest {
     @NotNull
     @Size(max = 50)
     @Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-]" +
-            "[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$", message = "Почта должна быть обязательно и корректно заполнена")
+            "[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$", message = "Укажите, пожалуйста, корректный email")
     private String email;
 
 
 
-    @Pattern(regexp = "(^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$)|(^\\s*$)", message = "Неправильный формат номера телефона")
+    @Pattern(regexp = "(^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$)|(^\\s*$)", message = "Укажите, пожалуйста, корректный номер")
     private String phoneNumber;
 //|(^\s*$)
 

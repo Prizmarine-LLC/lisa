@@ -1,0 +1,169 @@
+.demo {
+    background-color: #F8ECBD;
+    width: 1200px;
+    height: 760px;
+}
+
+.input_fields {
+    position: absolute;
+    width: 950px;
+    height: 618px;
+    left: 99px;
+    top: 71px;
+
+    background: #FFFFFF;
+    border-radius: 35px;
+}
+
+.required_fields {
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    box-sizing: border-box;
+    margin-left: 59px;
+}
+
+.non_required_fields {
+    display: inline-block;
+    vertical-align: top;
+    box-sizing: border-box;
+    margin-left: 105px;
+
+
+}
+
+.organizaton_types {
+    display: inline-block;
+
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+
+}
+
+.orgs {
+    position: absolute;
+    width: 618px;
+    height: 82px;
+    left: 68px;
+    top: 389px;
+}
+
+.text {
+
+    position: relative;
+    width: 285px;
+    height: 35px;
+    top: 23px;
+
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 35px;
+
+    color: #231F20;
+}
+
+.question_blocks {
+    box-sizing: border-box;
+    position: relative;
+    width: 349px;
+    height: 91px;
+    margin-top: 63px;
+
+    border: #1B1919;
+    border-width: 5px;
+}
+
+.questions {
+
+    width: 290px;
+    height: 31px;
+
+
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 31px;
+    /* identical to box height */
+
+
+    color: #1B1919;
+
+
+}
+
+.text_input {
+    margin-top: 12px;
+
+    position: relative;
+    width: 270px;
+    height: 28px;
+
+
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+
+    border-left: 0px;
+    border-right: 0px;
+    border-top: 0px;
+
+}
+
+
+button {
+    position: absolute;
+    width: 241px;
+    height: 74px;
+    left: 369px;
+    top: 510px;
+
+    background: #F4D242;
+    border-radius: 205px;
+    border-width: 0px;
+    text-align: center;
+
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 38px;
+}
+
+.radio_input {
+    width: 28px;
+    height: 28px;
+}
+
+.flower_icon {
+    position: absolute;
+    width: 408px;
+    height: 818.78px;
+    left: 800px;
+    top: 0px;
+}
+
+.calc_icon {
+    position: absolute;
+    width: 280px;
+    height: 418px;
+    left: 0px;
+    top: 125px;
+}
+
+.bg_round {
+    position: absolute;
+    width: 852px;
+    height: 852px;
+    left: -389px;
+    top: -92px;
+
+    background: #F4D242;
+}

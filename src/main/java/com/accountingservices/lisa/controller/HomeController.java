@@ -26,8 +26,7 @@ public class HomeController {
     @SneakyThrows
     @Autowired
     public HomeController() {
-        TelegramBotsApi botsApi = null;
-        botsApi = new TelegramBotsApi(DefaultBotSession.class);
+        TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
         bot = new Bot();
         botsApi.registerBot(bot);
         excelService = new ExcelService();
@@ -63,7 +62,7 @@ public class HomeController {
             Model model
     ) {
         if (errors.hasErrors()) {
-            model.addAttribute("message", "Ошибка в отправке заявки!");
+            model.addAttribute("message", "Ошибка при отправке заявки!");
             return "index";
         }
         model.addAttribute("message", "Заявка успешно отправлена!");
@@ -75,7 +74,7 @@ public class HomeController {
         return "redirect:";
     }
 
-    private void dataProcessing(UserRequest userRequest){
+    private void dataProcessing(UserRequest userRequest) {
         excelService.addUserRequestExcel(userRequest);
         bot.sendText(userRequest.toString());
     }
