@@ -1,1 +1,1 @@
-web: java -Xmx300m -Xss512k -XX:CICompilerCount=2 -Dfile.encoding=UTF-8 -cp ./target/classes:./target/dependency/com.accountingservices.lisa.LisaApplication
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar target/lisa-0.0.1-SNAPSHOT.jar
