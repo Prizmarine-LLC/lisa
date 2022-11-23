@@ -1,6 +1,8 @@
 package com.accountingservices.lisa.bot;
 
 
+import com.accountingservices.lisa.controller.HomeController;
+import com.accountingservices.lisa.excel.ExcelService;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,9 +12,12 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 
 public class Bot extends TelegramLongPollingBot {
+
+    ExcelService excelService = new ExcelService();
 
     private final Long chatId = -1001791234990L;
 
@@ -36,19 +41,17 @@ public class Bot extends TelegramLongPollingBot {
             }
             return;
         }
-//        if (update.hasMessage() && msg.isCommand()) {
-//            if (msg.getText().equals("/getfile")) {
-//                sendExcelFile();
-//            }
-//            return;
-//        }
     }
 
-
     public void sendExcelFile() {
+
+        // формирую файл эксель
+        excelService.saveUserRequestsToExcel();
+        //
+
         FileInputStream stream = null;
         try {
-            stream = new FileInputStream("requests.xlsx");
+            stream = new FileInputStream("requestsFinal.xlsx");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -57,9 +60,12 @@ public class Bot extends TelegramLongPollingBot {
         document.setDocument(new InputFile(stream, "Заявки.xlsx"));
         try {
             execute(document);
-        } catch (TelegramApiException e) {
+            stream.close();
+            excelService.deleteInfoFromFinalFile();
+        } catch (TelegramApiException | IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 
 

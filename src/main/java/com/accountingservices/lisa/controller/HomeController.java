@@ -2,7 +2,10 @@ package com.accountingservices.lisa.controller;
 
 import com.accountingservices.lisa.bot.Bot;
 import com.accountingservices.lisa.excel.ExcelService;
+import com.accountingservices.lisa.models.OrganizationType;
 import com.accountingservices.lisa.models.UserRequest;
+import com.accountingservices.lisa.repository.OrganizationTypeRepository;
+import com.accountingservices.lisa.repository.UserRequestRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,25 +23,38 @@ import java.util.List;
 
 @Controller
 public class HomeController {
-    private ExcelService excelService;
+
+
+    @Autowired
+    UserRequestRepository userRequestRepository;
+
+    @Autowired
+    OrganizationTypeRepository organizationTypeRepository;
+
+    @Autowired
+    ExcelService excelService;
+
     private Bot bot;
 
     @SneakyThrows
     @Autowired
-    public HomeController() {
+    public HomeController(UserRequestRepository userRequestRepository, OrganizationTypeRepository organizationTypeRepository, ExcelService excelService) {
+        this.userRequestRepository = userRequestRepository;
+        this.organizationTypeRepository = organizationTypeRepository;
+        this.excelService = excelService;
         TelegramBotsApi botsApi = null;
         botsApi = new TelegramBotsApi(DefaultBotSession.class);
         bot = new Bot();
         botsApi.registerBot(bot);
-        excelService = new ExcelService();
+        excelService.setAllRequests((List<UserRequest>) userRequestRepository.findAll());
     }
 
     @ModelAttribute("organizationTypes")
     public List<String> organizationTypes(Model model) {
         List<String> organizationTypes = new ArrayList<>();
-        organizationTypes.add("ООО");
-        organizationTypes.add("ИП");
-        organizationTypes.add("Другое");
+        for (OrganizationType orgTypes : organizationTypeRepository.findAll()) {
+            organizationTypes.add(orgTypes.getName());
+        }
         return organizationTypes;
     }
 
@@ -56,9 +72,7 @@ public class HomeController {
     @SneakyThrows
     @PostMapping("/")
     public String add(
-            @Valid
-//            @ModelAttribute("userRequest")
-                    UserRequest userRequest,
+            @Valid UserRequest userRequest,
             Errors errors,
             Model model
     ) {
@@ -72,13 +86,12 @@ public class HomeController {
         dataProcessing(userRequest);
 
 
-        return "redirect:";
+        return "redirect:/";
     }
 
-    private void dataProcessing(UserRequest userRequest){
-        excelService.addUserRequestExcel(userRequest);
+    private void dataProcessing(UserRequest userRequest) {
         bot.sendText(userRequest.toString());
+        userRequestRepository.save(userRequest);
+        excelService.setAllRequests((List<UserRequest>) userRequestRepository.findAll());
     }
-
-
 }

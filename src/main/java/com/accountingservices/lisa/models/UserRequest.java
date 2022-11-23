@@ -1,23 +1,27 @@
 package com.accountingservices.lisa.models;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
-
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
 
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Data
 @Getter
 @Setter
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserRequest {
 
+    @Id
+    @GeneratedValue
+    private Long id;
 
     @NotNull
     @Size(min = 3, max = 50, message = "Обязательное поле")
@@ -35,24 +39,16 @@ public class UserRequest {
     private String email;
 
 
-
     @Pattern(regexp = "(^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$)|(^\\s*$)", message = "Укажите, пожалуйста, корректный номер")
     private String phoneNumber;
 //|(^\s*$)
 
+
     @NotNull(message = "Выберите вид организации")
     private String organizationType;
 
-    public UserRequest(String name, String problem, String email, String phoneNumber, String organizationType) {
-        this.name = name;
-        this.problem = problem;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.organizationType = organizationType;
-    }
+    private Date placedAt = new Date();
 
-    public UserRequest() {
-    }
 
     @Override
     public String toString() {
